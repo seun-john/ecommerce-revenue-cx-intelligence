@@ -41,7 +41,7 @@ The final command requires the local server to be running and Node.js installed;
 
 The Python tests reconcile unfiltered and delivered dashboard totals against the original pipeline, check category/state/date intersections, unknown delivery outcomes, empty selections, parameter validation, HTTP responses, CSV downloads and static-file restrictions. SQL filter values are bound parameters. Static routes are allowlisted; the server does not expose the project directory, database or credentials. All data values are HTML-escaped in chart/table labels.
 
-Browser automation was disabled in the session used to create this dashboard. JavaScript syntax, render-function behavior, API calculations and live HTTP responses were checked; actual browser layout, keyboard navigation and CSV download UI still need a manual check. No dashboard screenshot has been invented. Existing PNGs in reports/figures remain genuine Python analysis outputs.
+Browser automation was unavailable during the initial local build. After publication, the Executive Overview and Customer Experience pages and chart-based state filtering were checked in the in-app browser. `reports/figures/live-dashboard.png` is a real screenshot of the published dashboard. The other PNGs in reports/figures are Python analytical outputs. Full responsive, keyboard-navigation and CSV download UI checks remain unverified; the API/download data and render logic have automated coverage.
 
 ## Refresh and portability
 

@@ -14,6 +14,8 @@ The GitHub Pages version runs all filters and calculations in your browser. No l
 
 The browser engine's KPIs and all nine analytical tables were reconciled against DuckDB across 11 filter populations. See [publication and rebuild instructions](docs/PUBLISHING.md).
 
+![Published dashboard showing the verified Olist executive metrics](reports/figures/live-dashboard.png)
+
 ## Interactive local dashboard
 
 A working browser dashboard provides all four analysis pages, date/state/status/category filters, KPI cards, clickable regional/category charts, tables and filtered CSV downloads. Run it from this folder:
@@ -22,7 +24,7 @@ A working browser dashboard provides all four analysis pages, date/state/status/
 & .venv\Scripts\python.exe -m src.dashboard
 ```
 
-Open **http://127.0.0.1:8765** in your browser and leave the terminal running. No Power BI Desktop or new packages are required. See the [dashboard guide](dashboard/README.md) for interaction, refresh and verification details. The app queries the actual DuckDB model; it is a functional local alternative to the native Power BI report. Browser automation was disabled during development, so browser layout QA remains manual; API, calculation and renderer checks passed.
+Open **http://127.0.0.1:8765** in your browser and leave the terminal running. No Power BI Desktop or new packages are required. See the [dashboard guide](dashboard/README.md) for interaction, refresh and verification details. The app queries the actual DuckDB model; it is a functional local alternative to the native Power BI report. The published Executive Overview and Customer Experience pages, chart-based state filter and currency-card layout were also checked in the in-app browser. Full responsive and keyboard-accessibility audits remain future checks.
 
 ## Business questions
 

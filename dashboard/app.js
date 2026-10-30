@@ -15,7 +15,7 @@ const PAGE={
  experience:{title:'Customer experience',subtitle:'Connect customer feedback, delivery outcomes and observed repeat purchasing.',table:'comparison'}
 };
 let meta,data,current='executive',active=new URLSearchParams(),controller,sequence=0;
-const card=(label,value,note,amber=false)=>`<article class="kpi ${amber?'amber':''}"><p class="kpi-label">${esc(label)}</p><div class="kpi-value">${value}</div><div class="kpi-unit">${note}</div></article>`;
+const card=(label,value,note,amber=false)=>`<article class="kpi ${amber?'amber':''}"><p class="kpi-label">${esc(label)}</p><div class="kpi-value ${String(value).length>14?'long-value':''}">${value}</div><div class="kpi-unit">${note}</div></article>`;
 const panel=(title,subtitle,body,tag='')=>`<section class="panel"><div class="panel-header"><div><h2>${esc(title)}</h2><p class="panel-sub">${esc(subtitle)}</p></div>${tag?`<span class="tag">${esc(tag)}</span>`:''}</div>${body}</section>`;
 const empty=()=>'<p class="empty">No eligible records in this selection.</p>';
 

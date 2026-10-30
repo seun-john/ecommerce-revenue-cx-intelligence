@@ -2,6 +2,11 @@ name: Deploy portfolio dashboard
 on:
   push:
     branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/pages.yml'
+      - 'scripts/check-pages.cjs'
+      - 'tests/fixtures/pages-parity.json'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,5 +1,6 @@
 """Create a portable GitHub Pages build from validated, minimised source analytics."""
 import gzip
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -65,7 +66,6 @@ def build():
     html=html.replace('<script src="app.js" defer></script>','<script src="engine.js" defer></script>\n  <script src="static-api.js" defer></script>\n  <script src="app.js" defer></script>')
     html=html.replace('LOCAL WORKSPACE','PUBLIC PORTFOLIO').replace('Local, read-only analytics','Historical, read-only analytics')
     html=html.replace('</footer>','<a href="attribution.html">Data licence &amp; attribution</a></footer>')
-    (dest/'index.html').write_text(html,encoding='utf-8')
     shutil.copyfile(ROOT/'DATA_LICENSE.md',dest/'DATA_LICENSE.md')
     attribution='''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Olist dataset attribution</title><style>body{max-width:800px;margin:50px auto;padding:0 24px;font:16px/1.7 system-ui;color:#203344}a{color:#007c78}pre{white-space:pre-wrap;font:inherit}</style></head><body><a href="./">← Dashboard</a><h1>Dataset attribution &amp; licence</h1><p>Original dataset: <a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce">Brazilian E-Commerce Public Dataset by Olist</a>.</p><p>Derived analytical data and graphics: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Independent, noncommercial portfolio analysis; no Olist endorsement is implied.</p><pre>'''
     attribution+=html_module.escape((ROOT/'DATA_LICENSE.md').read_text(encoding='utf-8'))+'</pre></body></html>'
@@ -73,6 +73,11 @@ def build():
     app=(dest/'app.js').read_text(encoding='utf-8').replace("['seller_id','Seller ID']","['seller_id','Seller code']")
     app=app.replace('top 50 by selected-item GMV','top 50 by selected-item GMV · seller codes are pseudonyms')
     (dest/'app.js').write_text(app,encoding='utf-8')
+    # Asset versions prevent visitors retaining an older UI after deployment.
+    for name in ['styles.css','engine.js','static-api.js','app.js']:
+        version=hashlib.sha256((dest/name).read_bytes()).hexdigest()[:12]
+        html=html.replace('"'+name+'"','"'+name+'?v='+version+'"')
+    (dest/'index.html').write_text(html,encoding='utf-8')
     (dest/'.nojekyll').touch()
     info={'orders':len(orders),'items':len(items),'json_bytes':len(content),'gzip_bytes':(dest/'analytics.json.gz').stat().st_size,
       'source':'Original Olist dataset; see reports/source_manifest.json','source_identifiers_included':False,'review_text_included':False,

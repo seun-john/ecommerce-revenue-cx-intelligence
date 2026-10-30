@@ -1,0 +1,10 @@
+{
+  "name": "Olist Intelligence",
+  "dataColors": ["#007F82", "#17324D", "#C05A12", "#65758B", "#773E90", "#397842"],
+  "background": "#F5F7FA", "foreground": "#17324D", "tableAccent": "#007F82",
+  "textClasses": {
+    "title": {"fontFace": "Segoe UI Semibold", "fontSize": 18, "color": "#17324D"},
+    "label": {"fontFace": "Segoe UI", "fontSize": 11, "color": "#17324D"},
+    "callout": {"fontFace": "Segoe UI Semibold", "fontSize": 30, "color": "#17324D"}
+  }
+}

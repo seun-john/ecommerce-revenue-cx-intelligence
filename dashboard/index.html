@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olist | Commerce Intelligence</title>
+  <meta name="description" content="Historical Olist sales, delivery and customer experience dashboard.">
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to dashboard</a>
+<aside class="sidebar">
+  <a class="brand" href="#executive"><span class="brand-mark" aria-hidden="true">o.</span><span>olist<span class="brand-small">COMMERCE INTELLIGENCE</span></span></a>
+  <p class="nav-label">WORKSPACE</p>
+  <nav aria-label="Dashboard pages">
+    <a href="#executive" data-page="executive"><span aria-hidden="true">01</span>Executive overview</a>
+    <a href="#sales" data-page="sales"><span aria-hidden="true">02</span>Sales & products</a>
+    <a href="#delivery" data-page="delivery"><span aria-hidden="true">03</span>Delivery & operations</a>
+    <a href="#experience" data-page="experience"><span aria-hidden="true">04</span>Customer experience</a>
+  </nav>
+  <div class="sidebar-bottom"><span class="source-dot"></span> ORIGINAL OLIST DATA<p>Historical orders · 2016–2018<br>Local, read-only analytics</p><button id="definitions-open" class="sidebar-button">Metric definitions ↗</button></div>
+</aside>
+<div class="workspace">
+  <header class="topbar"><span>Analytics / <strong id="breadcrumb">Executive overview</strong></span><span class="local-badge">LOCAL WORKSPACE</span></header>
+  <main id="content">
+    <div class="heading-row"><div><p class="eyebrow">E-COMMERCE REVENUE & CUSTOMER EXPERIENCE</p><h1 id="title">Executive overview</h1><p id="subtitle" class="subtitle">The commercial picture, with the customer experience behind it.</p></div><button id="export" class="button secondary">Export current table ↓</button></div>
+    <form id="filters" class="filterbar" aria-label="Dashboard filters">
+      <label>From<input type="date" id="start" required></label>
+      <label>To<input type="date" id="end" required></label>
+      <label>Destination state<select id="state"><option value="">All states</option></select></label>
+      <label>Order status<select id="status"><option value="">All statuses</option></select></label>
+      <label id="category-wrap">Product category<select id="category"><option value="">All categories</option></select></label>
+      <button type="submit" class="button primary">Apply filters</button><button type="button" id="reset" class="button text">Reset</button>
+      <div class="presets"><span>QUICK RANGE</span><button type="button" id="full-range">Full extract</button><button type="button" id="full-months">Jan 2017 – Aug 2018</button><span id="filter-state"></span></div>
+    </form>
+    <div id="message" role="status" aria-live="polite" class="message">Loading verified data…</div>
+    <section id="dashboard" aria-label="Analysis results" aria-busy="true"></section>
+    <footer><span>Source: Olist Brazilian E-Commerce Public Dataset · CC BY-NC-SA 4.0</span><span>GMV ≠ company revenue · No cost-based profit estimate</span></footer>
+  </main>
+</div>
+<dialog id="definitions"><div class="dialog-header"><h2>Read the metrics correctly</h2><button id="definitions-close" class="button secondary">Close</button></div>
+  <dl>
+    <dt>Item GMV & AOV</dt><dd>GMV is the sum of selected item prices in nominal BRL, excluding freight. AOV divides that value by distinct orders containing those items. All statuses are included unless filtered.</dd>
+    <dt>Category filter</dt><dd>Item amounts use only the selected category. Order, service, payment and repeat metrics use whole orders containing that category. Multi-category order counts overlap.</dd>
+    <dt>Late rate</dt><dd>Actual delivery calendar date after promised delivery date, divided by delivered orders with both dates. Unknown outcomes are excluded; they are never on-time.</dd>
+    <dt>Reviews</dt><dd>One latest answered review per order; missing reviews are excluded from score averages. Low scores are 1–2. Delivery comparisons include reviewed orders with known delivery outcomes.</dd>
+    <dt>Repeat share</dt><dd>Customers with more than one delivered order divided by customers with at least one delivered order in the current selection. Uses customer_unique_id. Unequal follow-up means this is not retention.</dd>
+    <dt>Payment gap</dt><dd>Payment value less item GMV and freight, restricted to orders with payment records. Payment value is not GMV; orders lacking payment records are counted separately.</dd>
+    <dt>Evidence limits</dt><dd>Historical 2016–2018 transactions. Sparse boundary months are not complete demand. Associations do not establish causation. Multi-seller outcomes cannot attribute fault. No cost, commission, refund or tax ledger is available.</dd>
+  </dl>
+</dialog>
+</body></html>

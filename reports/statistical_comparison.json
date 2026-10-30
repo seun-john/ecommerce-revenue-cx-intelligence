@@ -1,0 +1,35 @@
+{
+  "method": "Order-level group comparison; latest review; 2,000 stratified bootstrap replicates; seed 20261030",
+  "late_n": 6381,
+  "on_time_n": 89443,
+  "late_review_mean": 2.270490518727472,
+  "on_time_review_mean": 4.290386055923885,
+  "mean_difference_late_minus_on_time": -2.0198955371964127,
+  "bootstrap_95_ci": [
+    -2.0588975747644684,
+    -1.9783851169534956
+  ],
+  "mann_whitney_u": 103305546.0,
+  "mann_whitney_p": 0.0,
+  "p_value_note": "May underflow to 0; report p < 0.001. Observational association, not causal; repeated customers/sellers can violate independence.",
+  "low_review": {
+    "late": {
+      "n": 6381,
+      "low_count": 3983,
+      "rate": 0.6241968343519825,
+      "wilson_95_ci": [
+        0.6122419418998083,
+        0.6360022800158845
+      ]
+    },
+    "on_time": {
+      "n": 89443,
+      "low_count": 8289,
+      "rate": 0.09267354628087161,
+      "wilson_95_ci": [
+        0.09079064560152943,
+        0.09459143372493399
+      ]
+    }
+  }
+}

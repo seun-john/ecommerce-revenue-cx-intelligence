@@ -1,0 +1,13 @@
+{
+  "placed_orders": 99441,
+  "delivered_orders": 96478,
+  "gmv_brl": 13591643.7,
+  "delivered_gmv_brl": 13221498.11,
+  "delivered_aov_brl": 137.0415857501192,
+  "late_rate": 0.06773090079817559,
+  "late_eligible": 96470,
+  "canceled_orders": 625,
+  "repeat_customer_rate": 0.03000278497825575,
+  "delivered_unique_customers": 93358,
+  "repeat_customers": 2801
+}

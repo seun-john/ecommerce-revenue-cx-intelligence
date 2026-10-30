@@ -1,0 +1,86 @@
+// Create each measure individually in Power BI's New measure editor.
+// Amounts in the exports are integer centavos. Format BRL measures as R$ #,##0.00.
+Placed Orders = COUNTROWS(FactOrders)
+
+Item Count = COUNTROWS(FactItems)
+
+Mean Item Price BRL = DIVIDE([GMV BRL], [Item Count])
+
+Delivered Orders = CALCULATE([Placed Orders], KEEPFILTERS(DimStatus[order_status] = "delivered"))
+
+GMV BRL = DIVIDE(SUM(FactItems[price_cents]), 100)
+
+Order GMV BRL = DIVIDE(SUM(FactOrders[gmv_cents]), 100)
+
+Freight BRL = DIVIDE(SUM(FactItems[freight_cents]), 100)
+
+Freight to GMV = DIVIDE([Freight BRL], [GMV BRL])
+
+Delivered GMV BRL = CALCULATE([GMV BRL], KEEPFILTERS(DimStatus[order_status] = "delivered"))
+
+Item-bearing Orders = DISTINCTCOUNT(FactItems[order_id])
+
+AOV BRL = DIVIDE([GMV BRL], [Item-bearing Orders])
+
+Delivered AOV BRL = CALCULATE([AOV BRL], KEEPFILTERS(DimStatus[order_status] = "delivered"))
+
+Canceled Orders = CALCULATE([Placed Orders], KEEPFILTERS(DimStatus[order_status] = "canceled"))
+
+Cancellation Rate = DIVIDE([Canceled Orders], [Placed Orders])
+
+Delivery Eligible Orders = COUNTROWS(FILTER(FactOrders, NOT ISBLANK(FactOrders[is_late])))
+
+Delivered Orders Missing Dates = [Delivered Orders] - [Delivery Eligible Orders]
+
+Late Orders = COUNTROWS(FILTER(FactOrders, FactOrders[is_late] == TRUE()))
+
+Late Rate = DIVIDE([Late Orders], [Delivery Eligible Orders])
+
+Mean Delivery Days = AVERAGE(FactOrders[delivery_days])
+
+P90 Delivery Days = PERCENTILEX.INC(FILTER(FactOrders, NOT ISBLANK(FactOrders[delivery_days])), FactOrders[delivery_days], 0.9)
+
+Reviewed Orders = COUNT(FactOrders[review_score])
+
+Unreviewed Orders = [Placed Orders] - [Reviewed Orders]
+
+Mean Review = AVERAGE(FactOrders[review_score])
+
+Low Review Orders = COUNTROWS(FILTER(FactOrders, NOT ISBLANK(FactOrders[review_score]) && FactOrders[review_score] <= 2))
+
+Low Review Rate = DIVIDE([Low Review Orders], [Reviewed Orders])
+
+Previous Month GMV BRL = CALCULATE([GMV BRL], DATEADD(DimDate[date], -1, MONTH))
+
+GMV MoM Growth = DIVIDE([GMV BRL] - [Previous Month GMV BRL], [Previous Month GMV BRL])
+
+Previous Month Orders = CALCULATE([Placed Orders], DATEADD(DimDate[date], -1, MONTH))
+
+Orders MoM Growth = DIVIDE([Placed Orders] - [Previous Month Orders], [Previous Month Orders])
+
+Payment Value BRL = DIVIDE(SUM(FactPayments[payment_cents]), 100)
+
+Payment Less Merchandise and Freight BRL = [Payment Value BRL] - [Order GMV BRL] - DIVIDE(SUM(FactOrders[freight_cents]), 100)
+
+Matched Order Payment Gap BRL = DIVIDE(SUMX(FILTER(FactOrders, NOT ISBLANK(FactOrders[payment_cents])), FactOrders[payment_cents] - FactOrders[gmv_cents] - FactOrders[freight_cents]), 100)
+
+Selected Item Orders = DISTINCTCOUNT(FactItems[order_id])
+
+Selected Item Order Late Rate = CALCULATE([Late Rate], KEEPFILTERS(TREATAS(VALUES(FactItems[order_id]), FactOrders[order_id])))
+
+Selected Item Order Mean Review = CALCULATE([Mean Review], KEEPFILTERS(TREATAS(VALUES(FactItems[order_id]), FactOrders[order_id])))
+
+Selected Item Order Eligible Deliveries = CALCULATE([Delivery Eligible Orders], KEEPFILTERS(TREATAS(VALUES(FactItems[order_id]), FactOrders[order_id])))
+
+Selected Item Order Mean Delivery Days = CALCULATE([Mean Delivery Days], KEEPFILTERS(TREATAS(VALUES(FactItems[order_id]), FactOrders[order_id])))
+
+Selected Item Order P90 Delivery Days = CALCULATE([P90 Delivery Days], KEEPFILTERS(TREATAS(VALUES(FactItems[order_id]), FactOrders[order_id])))
+
+// Repeat share within the current date/state/status selection, restricted to delivered orders.
+Delivered Customers = CALCULATE(DISTINCTCOUNT(DimCustomer[customer_unique_id]), FILTER(DimCustomer, CALCULATE(COUNTROWS(FactOrders), KEEPFILTERS(DimStatus[order_status] = "delivered")) > 0))
+
+Repeat Delivered Customers = SUMX(VALUES(DimCustomer[customer_unique_id]), VAR N = CALCULATE(COUNTROWS(FactOrders), KEEPFILTERS(DimStatus[order_status] = "delivered")) RETURN IF(N > 1, 1, 0))
+
+Observed Repeat Share = DIVIDE([Repeat Delivered Customers], [Delivered Customers])
+
+Customer Delivered Orders = CALCULATE([Placed Orders], KEEPFILTERS(DimStatus[order_status] = "delivered"))

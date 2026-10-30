@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "completed_utc": "2026-10-30T13:54:36.305006+00:00",
+  "python": "3.12.14",
+  "packages": {
+    "pandas": "2.3.3",
+    "duckdb": "1.4.1",
+    "matplotlib": "3.10.7",
+    "scipy": "1.16.3",
+    "pytest": "8.4.2"
+  },
+  "source_manifest": "source_manifest.json",
+  "orders": 99441
+}

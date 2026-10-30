@@ -1,0 +1,11 @@
+{
+  "orders": 99441,
+  "items": 112650,
+  "json_bytes": 8424213,
+  "gzip_bytes": 2799774,
+  "source": "Original Olist dataset; see reports/source_manifest.json",
+  "source_identifiers_included": false,
+  "review_text_included": false,
+  "schema_version": 1,
+  "parity_filter_cases": 11
+}
